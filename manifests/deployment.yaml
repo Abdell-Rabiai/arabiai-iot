@@ -33,3 +33,22 @@ spec:
   - port: 8888
     targetPort: 8888
   type: ClusterIP
+---
+# Ingress: routes external traffic on port 8888 to the wil-playground Service
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wil-playground-ingress
+  annotations:
+    spec.ingressClassName: traefik
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wil-playground-svc
+            port:
+              number: 8888
